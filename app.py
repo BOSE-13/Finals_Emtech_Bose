@@ -12,29 +12,24 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from PIL import Image
 
-# Class labels for Fashion MNIST
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
-# Load the best model
 model = load_model('best_model.h5')
 
-# Streamlit app interface
 st.title("Fashion MNIST Classifier")
 st.write("Upload a 28x28 grayscale image of a clothing item.")
 
 uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
 
 if uploaded_file:
-    # Preprocess image
     img = Image.open(uploaded_file).convert('L')  # Convert to grayscale
     img = img.resize((28, 28))
     img_array = np.array(img) / 255.0
     img_reshaped = img_array.reshape(1, 28, 28, 1)
 
-    st.image(img, caption='Uploaded Image (resized to 28x28)', width=150)
+    st.image(img, caption='Uploaded Image', width=150)
 
-    # Predict using model
     prediction = model.predict(img_reshaped)
     predicted_class = np.argmax(prediction)
 
